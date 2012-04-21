@@ -4,13 +4,20 @@ class Cluster
 		@starving = starving
 		@size = size
 		
+		@current_cell.enter(self)
 		Game.instance.register_cluster(self)
 	end
 
 	def cycle
-		eat
-		reproduce
-		move
+		if alive?
+			eat
+			reproduce
+			move
+		end
+	end
+	
+	def size
+		return @size
 	end
 	
 	def alive?
@@ -61,7 +68,9 @@ class Cluster
 			end
 			
 			if rand < move_probability
+				@current_cell.leave(self)
 				@current_cell = @current_cell.random_adjacent_cell(true)
+				@current_cell.enter(self)
 			end
 		end
 	end

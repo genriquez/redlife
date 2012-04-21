@@ -5,6 +5,9 @@ require("./Cell.rb")
 class Game
 	include Singleton
 	
+	attr_accessor :cell_matrix
+	attr_accessor :clusters
+	
 	def start(matrix_size = 5)
 		@cell_matrix = Hash.new
 		
@@ -15,7 +18,7 @@ class Game
 		matrix_keys = matrix_side.product(matrix_side)
 		
 		matrix_keys.collect do |index|
-			cell = Cell.new(100)
+			cell = Cell.new(10)
 			@cell_matrix[index] = cell
 		end
 		
