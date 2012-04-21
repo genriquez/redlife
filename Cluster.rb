@@ -13,6 +13,9 @@ class Cluster
 			eat
 			reproduce
 			move
+		else
+			puts "CLUSTER DEAD"
+			remove
 		end
 	end
 	
@@ -20,8 +23,25 @@ class Cluster
 		return @size
 	end
 	
+	def starving
+		return @starving
+	end
+	
 	def alive?
 		return @size > 0
+	end
+	
+	def remove
+		@current_cell.leave(self)
+		Game.instance.unregister_cluster(self)
+	end
+	
+	def merge(cluster)
+		puts "CLUSTER MERGE: #{@size} + #{cluster.size}"
+		
+		@size += cluster.size
+		@starving += cluster.starving
+		cluster.remove
 	end
 	
 	private

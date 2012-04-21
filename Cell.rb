@@ -2,7 +2,7 @@ class Cell
 	def initialize(food = 0)
 		@adjacent_cells = []
 		@food = food
-		@clusters = []
+		@cluster = nil
 	end
 	
 	def food
@@ -22,15 +22,19 @@ class Cell
 	end
 	
 	def enter(cluster)
-		@clusters.push(cluster)
+		if @cluster == nil
+			@cluster = cluster
+		else
+			@cluster.merge(cluster)
+		end
 	end
 	
 	def leave(cluster)
-		@clusters.delete(cluster)
+		@cluster = nil unless @cluster != cluster
 	end
 	
-	def clusters
-		return @clusters
+	def cluster
+		return @cluster
 	end
 	
 	def random_adjacent_cell(prefer_food = false)

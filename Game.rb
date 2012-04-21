@@ -12,7 +12,8 @@ class Game
 		@cell_matrix = Hash.new
 		
 		@clusters = []
-		@cycle_new_clusters = []
+		@cycle_born_clusters = []
+		@cycle_dead_clusters = []
 
 		matrix_side = (1..matrix_size).to_a
 		matrix_keys = matrix_side.product(matrix_side)
@@ -39,7 +40,11 @@ class Game
 	end
 
 	def register_cluster(cluster)
-		@cycle_new_clusters.push(cluster)
+		@cycle_born_clusters.push(cluster)
+	end
+	
+	def unregister_cluster(cluster)
+		@cycle_dead_clusters.push(cluster)
 	end
 	
 	def cycle
@@ -47,7 +52,13 @@ class Game
 			cluster.cycle
 		end
 
-		@clusters = @clusters.concat(@cycle_new_clusters)
-		@cycle_new_clusters = []
+		puts @clusters.size
+		@clusters = @clusters.concat(@cycle_born_clusters)
+		@cycle_dead_clusters.each do |cluster|
+			@clusters.delete(cluster)
+		end
+		
+		@cycle_born_clusters = []
+		@cycle_dead_clusters = []
 	end
 end

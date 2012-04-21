@@ -31,16 +31,11 @@ class GameWindow < Gosu::Window
 	
 	def color_for_cell(cell)
 		color = Gosu::Color.new(0xff000000)
-		clusters = cell.clusters
 		
-		if(clusters.size == 0)
+		if(cell.cluster == nil)
 			color.green = [cell.food * 20, 255].min
 		else
-			total_size = 0
-			clusters.each do |cluster|
-				total_size += cluster.size
-			end
-			color.red = 55 + [200, total_size*60].min
+			color.red = 55 + [200, cell.cluster.size*60].min
 			color.green = 55
 			color.blue = 55
 		end
